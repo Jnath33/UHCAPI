@@ -655,6 +655,7 @@ public class UhcAPI extends JavaPlugin {
 		for(Scenario scenario : Scenario.createActivatedScenarioList()){
 			scenario.run();
 		}
+		MainScenario.getMainScenario().run();
 
 		new GameTask().runTaskTimer(this,0,5);
 	}
