@@ -25,7 +25,9 @@ public class Tchat {
         Tchat tchat = get(tchatName);
         String msg = tchat.tchatFormat.generate(message,tchat.getTag(), sender,otherOne,otherTwo,otherThree);
         for(Player pls : players){
+            System.out.println("test9");
             pls.sendMessage(msg);
+            System.out.println("test10");
         }
 
     }

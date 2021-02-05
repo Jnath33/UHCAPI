@@ -24,14 +24,12 @@ public class Game {
         TchatFormat tchatFormatInfo= new TchatFormat();
         tchatFormatInfo.setNext(TchatContentType.TAG);
         tchatFormatInfo.setNext(TchatContentType.MESSAGE);
-        tchatFormatInfo.endAll();
         new Tchat(tchatNameInfo,tag, TchatType.INFORMATION,tchatFormatInfo);
         TchatFormat tchatFormatGlobal= new TchatFormat();
         tchatFormatGlobal.setNext(TchatContentType.TAG);
         tchatFormatGlobal.setNext(TchatContentType.OTHER_1);
         tchatFormatGlobal.setNext(TchatContentType.PLAYER);
         tchatFormatGlobal.setNext(TchatContentType.MESSAGE);
-        tchatFormatGlobal.endAll();
         new Tchat(tchatNameGlobal, "§c[§4Global§c]§7", TchatType.GLOBAL,tchatFormatGlobal);
         this.status=Status.WAITING;
     }
