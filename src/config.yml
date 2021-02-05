@@ -1,0 +1,11 @@
+UHCApi:
+  data:
+    tag: "&6[UHC]"
+  world: "world"
+  worldMiniGame: "anyBuild"
+  hub:
+    world: "hub"
+    spawn:
+      x: 0
+      y: 250
+      z: 0

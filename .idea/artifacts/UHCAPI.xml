@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="UHCAPI">
+    <output-path>$USER_HOME$/Compétition/servUHCTest/plugins</output-path>
+    <root id="archive" name="UHCAPI.jar">
+      <element id="module-output" name="UHCAPI" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/config.yml" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/plugin.yml" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/gui.yml" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/message.yml" />
+    </root>
+  </artifact>
+</component>
