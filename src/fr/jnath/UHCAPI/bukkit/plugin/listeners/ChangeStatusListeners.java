@@ -9,6 +9,7 @@ import fr.jnath.UHCAPI.game.Game;
 import fr.jnath.UHCAPI.game.Status;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityRegainHealthEvent;
 
 public class ChangeStatusListeners implements Listener {
 
@@ -27,6 +28,9 @@ public class ChangeStatusListeners implements Listener {
 
     @EventHandler
     public void onEpisodePass(EpisodePassEvent event){
+        if(event.getEpisode()==(int) GUI.getGUI("uhc_config_time").getDisplayerValue("pvp_start_episode")){
+            game.setStatus(Status.POSTPVP);
+        }
         if(event.getEpisode()==(int) GUI.getGUI("uhc_config_time").getDisplayerValue("pvp_start_episode")){
             game.setStatus(Status.POSTPVP);
         }

@@ -8,7 +8,7 @@ import fr.jnath.UHCAPI.bukkit.plugin.commands.goTo;
 import fr.jnath.UHCAPI.bukkit.plugin.listeners.HubListeners;
 import fr.jnath.UHCAPI.bukkit.plugin.listeners.UHCListeners;
 import fr.jnath.UHCAPI.game.Game;
-import fr.jnath.UHCAPI.game.GameTask;
+import fr.jnath.UHCAPI.bukkit.plugin.task.GameTask;
 import fr.jnath.UHCAPI.game.Status;
 import fr.jnath.UHCAPI.hub.HubTask;
 import fr.jnath.UHCAPI.scenario.MainScenario;
@@ -45,6 +45,7 @@ public class UhcAPI extends JavaPlugin {
 	private static String worldName;
 	private static World world;
 	private static LocalWorld lWorld;
+	private static World netherWorld;
 	private static Game game;
 	private YamlConfiguration guiTextConfiguration;
 	private YamlConfiguration messageTextConfiguration;
@@ -103,6 +104,7 @@ public class UhcAPI extends JavaPlugin {
 			worldHub = Bukkit.getWorld(worldHubName);
 			worldShematique = Bukkit.getWorld(worldShematiqueName);
 			world = Bukkit.getWorld(worldName);
+			netherWorld = Bukkit.getWorld(worldName+"_nether");
 
 			lWorld = BukkitUtil.getLocalWorld(worldHub);
 			lWorld = BukkitUtil.getLocalWorld(worldShematique);
@@ -740,5 +742,9 @@ public class UhcAPI extends JavaPlugin {
 				}
 			}
 		},1);
+	}
+
+	public static World getNetherWorld() {
+		return netherWorld;
 	}
 }
