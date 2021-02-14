@@ -15,6 +15,7 @@ public class WinCondition {
     private static WinMessageType winMessageType = WinMessageType.MAIN_SCENARIO;
     private final static HashMap<Player, WinCondition> playerWinCondition = new HashMap<>();
     private final static HashMap<String, WinCondition> nameWinCondition = new HashMap<>();
+    private final static HashMap<Player, WinCondition> playerDeath = new HashMap<>();
 
     public WinCondition(String name, String displayName, WinConditionType winConditionType) {
         this.name = name;

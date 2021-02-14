@@ -25,7 +25,7 @@ public class UhcCmd implements CommandExecutor {
     }
 
     public void helpCmd(CommandSender sender){
-
+        sender.sendMessage("La base de la commande est : /uhc <cmd> <cmd args>");
     }
 
     public void scenarioCmd(CommandSender sender){

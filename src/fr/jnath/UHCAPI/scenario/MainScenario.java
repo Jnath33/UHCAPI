@@ -2,7 +2,6 @@ package fr.jnath.UHCAPI.scenario;
 
 import fr.jnath.UHCAPI.GUI.*;
 import fr.jnath.UHCAPI.bukkit.plugin.UhcAPI;
-import fr.jnath.UHCAPI.tchat.Tchat;
 import fr.jnath.Utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

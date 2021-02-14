@@ -2,8 +2,8 @@ package fr.jnath.UHCAPI.bukkit.plugin;
 
 import com.sk89q.worldedit.LocalWorld;
 import com.sk89q.worldedit.bukkit.BukkitUtil;
-import fr.jnath.UHCAPI.GUI.*;
 import fr.jnath.UHCAPI.bukkit.plugin.commands.GetConfigItem;
+import fr.jnath.UHCAPI.bukkit.plugin.commands.UhcCmd;
 import fr.jnath.UHCAPI.bukkit.plugin.commands.goTo;
 import fr.jnath.UHCAPI.bukkit.plugin.listeners.HubListeners;
 import fr.jnath.UHCAPI.bukkit.plugin.listeners.UHCListeners;
@@ -11,10 +11,12 @@ import fr.jnath.UHCAPI.game.Game;
 import fr.jnath.UHCAPI.bukkit.plugin.task.GameTask;
 import fr.jnath.UHCAPI.game.Status;
 import fr.jnath.UHCAPI.hub.HubTask;
+import fr.jnath.UHCAPI.manager.RegisterManager;
 import fr.jnath.UHCAPI.scenario.MainScenario;
 import fr.jnath.UHCAPI.scenario.Scenario;
-import fr.jnath.UHCAPI.tchat.listeners.TchatListeners;
-import fr.jnath.Utils.Utils;
+import fr.jnath.UHCAPI.bukkit.plugin.listeners.TchatListeners;
+import fr.virthia.utils.GUI.*;
+import fr.virthia.utils.item.ItemCreator;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.bukkit.*;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -115,14 +117,8 @@ public class UhcAPI extends JavaPlugin {
 			zSpawn = getConfig().getDouble("UHCApi.hub.spawn.z");
 		}
 
-		//init commands
-		getCommand("config").setExecutor(new GetConfigItem());
-		getCommand("goto").setExecutor(new goTo());
-		
-		//init listeners
-		Bukkit.getPluginManager().registerEvents(new HubListeners(), this);
-		Bukkit.getPluginManager().registerEvents(new UHCListeners(), this);
-		Bukkit.getPluginManager().registerEvents(new TchatListeners(), this);
+		//initialisation
+		new RegisterManager().register(this);
 
 		//start hubTask
 		hubTask=new HubTask();
@@ -134,63 +130,63 @@ public class UhcAPI extends JavaPlugin {
 		{
 			Map<Integer, ImmutablePair<ItemStack, Button>> main_menu_map_button = new HashMap<Integer, ImmutablePair<ItemStack, Button>>();
 			main_menu_map_button.put(0, new ImmutablePair<ItemStack, Button>(
-					Utils.createItem("§cOption", Material.LEVER, 1, new String[] {
+					new ItemCreator("§cOption", Material.LEVER, 1, new String[] {
 							"§aConfiguration des réglage de base de l'uhc"
-					}),new Button(null, player -> {
+					}).make(),new Button(null, player -> {
 						GUI.openGUI("uhc_config", player);
 					},null,null,"button")
 			));
 			main_menu_map_button.put(1, new ImmutablePair<ItemStack, Button>(
-					Utils.createItem("§cStarter stuff", Material.COOKED_BEEF, 1, new String[] {
+					new ItemCreator("§cStarter stuff", Material.COOKED_BEEF, 1, new String[] {
 							"§aStuff de départ donner à tous",
 							"§ales joueurs au début de l'uhc"
-					}),
+					}).make(),
 					new Button(null, player -> {
 						GUI.openGUI("starter_stuff", player);
 					},null,null,"button")
 			));
 			main_menu_map_button.put(2, new ImmutablePair<ItemStack, Button>(
-					Utils.createItem("§cScénarios de la partie", Material.APPLE, 1, new String[] {
+					new ItemCreator("§cScénarios de la partie", Material.APPLE, 1, new String[] {
 							"§aLes scénarios qui change la façon de jouer",
 							"§aEx : cutclean : fait cuir les minerai",
 							"§ateaminventory : mets a profis un inventaire d'équipe"
-					}),
+					}).make(),
 					new Button(null, player -> {
 						GUI.openGUI("scenario_menu", player);
 					},null,null,"button")
 			));
 			main_menu_map_button.put(3, new ImmutablePair<ItemStack, Button>(
-					Utils.createItem("§cSave config", Material.REDSTONE, 1, new String[] {
+					new ItemCreator("§cSave config", Material.REDSTONE, 1, new String[] {
 							"§aPermet de sauvgarder la configuration",
 							"§acela inclut de sauvgarder les scénarios",
 							"§adans la partie, leur configuration, les",
 							"§aconfiguration de l'uhc et le stuff de départ"
-					}),
+					}).make(),
 					new Button(null, player -> {
 						GUI.openGUI("save_config_menu", player);
 					},null,null,"button")
 			));
 			main_menu_map_button.put(4, new ImmutablePair<ItemStack, Button>(
-					Utils.createItem("§cScénario principale de la partie", Material.GRASS, 1, new String[] {
+					new ItemCreator("§cScénario principale de la partie", Material.GRASS, 1, new String[] {
 							"§aLes scénarios qui change le but final",
 							"§aEx : Lord of ring uhc : trouver les ennemis",
 							"§apour gagner avec son camps",
 							"§a  FFA : UHC chaqu'un pour sa peau"
-					}),
+					}).make(),
 					new Button(null, player -> {
 						GUI.openGUI("scenario_main_menu", player);
 					},null,null,"button")
 			));
 			main_menu_map_button.put(5, new ImmutablePair<ItemStack, Button>(
-					Utils.createItem("§cLoad config", Material.PAPER, 1, new String[]
+					new ItemCreator("§cLoad config", Material.PAPER, 1, new String[]
 							{"§o§aRecharger vos configurations que",
-									"§o§avous avez enregister au préalable"}),
+									"§o§avous avez enregister au préalable"}).make(),
 					new Button(null, player -> {
 						GUI.openGUI("load_config_menu", player);
 					},null,null,"button")
 			));
 			main_menu_map_button.put(6, new ImmutablePair<ItemStack, Button>(
-					Utils.createItem("§2Start", Material.WOOL, 1, (byte) 5),
+					new ItemCreator("§2Start", Material.WOOL, 1, (byte) 5).make(),
 					new Button(null, player -> {
 						GUI.openGUI("accept_start_gui", player);
 					},null,null,"button")
@@ -201,42 +197,42 @@ public class UhcAPI extends JavaPlugin {
 
 		//uhc_config
 		{
-			Map<Integer, ImmutablePair<ItemStack, Button>> uhc_config_map_button = new HashMap<Integer, ImmutablePair<ItemStack, Button>>();
-			Map<Integer, Displayer> uhc_config_map_displayer = new HashMap<Integer, Displayer>();
+			Map<Integer, ImmutablePair<ItemStack, Button>> uhc_config_map_button = new HashMap<>();
+			Map<Integer, Displayer> uhc_config_map_displayer = new HashMap<>();
 
-			uhc_config_map_button.put(2, new ImmutablePair<ItemStack, Button>(
-					Utils.createItem("§1§2Config timer", Material.COMPASS, 1),
+			uhc_config_map_button.put(2, new ImmutablePair<>(
+					new ItemCreator("§1§2Config timer", Material.COMPASS, 1).make(),
 					new Button(null, player -> {
 						GUI.openGUI("uhc_config_timer", player);
 					},null,null,"button")
 			));
 
 			uhc_config_map_button.put(6, new ImmutablePair<ItemStack, Button>(
-					Utils.createItem("§1Allowed potion", Material.POTION, 1, (byte) 2),
+					new ItemCreator("§1Allowed potion", Material.POTION, 1, (byte) 2).make(),
 					new Button(null, player -> {
 						GUI.openGUI("uhc_config_allowed_potion", player);
 					},null,null,"button")
 			));
 
 			uhc_config_map_button.put(7, new ImmutablePair<ItemStack, Button>(
-					Utils.createItem("§1§3Border", Material.STAINED_GLASS_PANE, 1, (byte) 3),
+					new ItemCreator("§1§3Border", Material.STAINED_GLASS_PANE, 1, (byte) 3).make(),
 					new Button(null, player -> {
 						GUI.openGUI("uhc_config_border", player);
 					},null,null,"button")
 			));
 
 			uhc_config_map_button.put(0, new ImmutablePair<ItemStack, Button>(
-					Utils.createItem("§1Back to main menu", Material.ARROW, 1),
+					new ItemCreator("§1Back to main menu", Material.ARROW, 1).make(),
 					new Button(null, player -> {
 						GUI.openGUI("main_menu", player);
 					},null,null,"button")
 			));
 
-			uhc_config_map_button.put(3, new ImmutablePair<ItemStack, Button>(
-					Utils.createItem("§8Drop d'item", Material.FLINT, 1),
+			ImmutablePair<ItemStack, Button> put = uhc_config_map_button.put(3, new ImmutablePair<ItemStack, Button>(
+					new ItemCreator("§8Drop d'item", Material.FLINT, 1).make(),
 					new Button(null, player -> {
 						GUI.openGUI("uhc_config_drop", player);
-					},null,null,"button")
+					}, null, null, "button")
 			));
 			/*
 			uhc_config_map_button.put(4, new ImmutablePair<ItemStack, Button>(
@@ -321,56 +317,56 @@ public class UhcAPI extends JavaPlugin {
 			Map<Integer, Displayer> uhc_config_map_displayer = new HashMap<Integer, Displayer>();
 
 			uhc_config_map_button.put(3, new ImmutablePair<ItemStack, Button>(
-					Utils.createItem("§1§2+ Épisode duration minute", Material.STAINED_GLASS_PANE, 1, (byte) 5),
+					new ItemCreator("§1§2+ Épisode duration minute", Material.STAINED_GLASS_PANE, 1, (byte) 5).make(),
 					new Button(null, player -> {
 						GUI.getGUI("uhc_config_timer").addToDisplayer(1,"episode_duration");
 					},null,null,"button")
 			));
 
 			uhc_config_map_button.put(7, new ImmutablePair<ItemStack, Button>(
-					Utils.createItem("§1§c- Épisode duration minute", Material.STAINED_GLASS_PANE, 1, (byte) 14),
+					new ItemCreator("§1§c- Épisode duration minute", Material.STAINED_GLASS_PANE, 1, (byte) 14).make(),
 					new Button(null, player -> {
 						GUI.getGUI("uhc_config_timer").addToDisplayer(-1,"episode_duration");
 					},null,null,"button")
 			));
 
 			uhc_config_map_button.put(4, new ImmutablePair<ItemStack, Button>(
-					Utils.createItem("§1§2+ Épisode pvp start", Material.STAINED_GLASS_PANE, 1, (byte) 5),
+					new ItemCreator("§1§2+ Épisode pvp start", Material.STAINED_GLASS_PANE, 1, (byte) 5).make(),
 					new Button(null, player -> {
 						GUI.getGUI("uhc_config_timer").addToDisplayer(1,"pvp_start_episode");
 					},null,null,"button")
 			));
 
 			uhc_config_map_button.put(8, new ImmutablePair<ItemStack, Button>(
-					Utils.createItem("§1§c- Épisode pvp start", Material.STAINED_GLASS_PANE, 1, (byte) 14),
+					new ItemCreator("§1§c- Épisode pvp start", Material.STAINED_GLASS_PANE, 1, (byte) 14).make(),
 					new Button(null, player -> {
 						GUI.getGUI("uhc_config_timer").addToDisplayer(-1,"pvp_start_episode");
 					},null,null,"button")
 			));
 
 			uhc_config_map_button.put(5, new ImmutablePair<ItemStack, Button>(
-					Utils.createItem("§1§2+ Invurability duration seconde", Material.STAINED_GLASS_PANE, 1, (byte) 5),
+					new ItemCreator("§1§2+ Invurability duration seconde", Material.STAINED_GLASS_PANE, 1, (byte) 5).make(),
 					new Button(null, player -> {
 						GUI.getGUI("uhc_config_timer").addToDisplayer(2,"invulnerability_duration");
 					},null,null,"button")
 			));
 
 			uhc_config_map_button.put(9, new ImmutablePair<ItemStack, Button>(
-					Utils.createItem("§1§c- Invurability duration seconde", Material.STAINED_GLASS_PANE, 1, (byte) 14),
+					new ItemCreator("§1§c- Invurability duration seconde", Material.STAINED_GLASS_PANE, 1, (byte) 14).make(),
 					new Button(null, player -> {
 						GUI.getGUI("uhc_config_timer").addToDisplayer(-2,"invulnerability_duration");
 					},null,null,"button")
 			));
 
 			uhc_config_map_button.put(2, new ImmutablePair<ItemStack, Button>(
-					Utils.createItem("§1Back to main menu", Material.ARROW, 1),
+					new ItemCreator("§1Back to main menu", Material.ARROW, 1).make(),
 					new Button(null, player -> {
 						GUI.openGUI("main_menu", player);
 					},null,null,"button")
 			));
 
 			uhc_config_map_button.put(6, new ImmutablePair<ItemStack, Button>(
-					Utils.createItem("§1Back to configuration menu", Material.FLINT, 1),
+					new ItemCreator("§1Back to configuration menu", Material.FLINT, 1).make(),
 					new Button(null, player -> {
 						GUI.openGUI("uhc_config", player);
 					},null,null,"button")
@@ -404,14 +400,14 @@ public class UhcAPI extends JavaPlugin {
 			Map<Integer, Displayer> uhc_config_map_displayer = new HashMap<Integer, Displayer>();
 
 			uhc_config_map_button.put(2, new ImmutablePair<ItemStack, Button>(
-					Utils.createItem("§1§2+ Border épisode start", Material.STAINED_GLASS_PANE, 1, (byte) 5),
+					new ItemCreator("§1§2+ Border épisode start", Material.STAINED_GLASS_PANE, 1, (byte) 5).make(),
 					new Button(null, player -> {
 						GUI.getGUI("uhc_config_border").addToDisplayer(1,"border_start");
 					},null,null,"button")
 			));
 
 			uhc_config_map_button.put(6, new ImmutablePair<ItemStack, Button>(
-					Utils.createItem("§1§c- Border épisode start", Material.STAINED_GLASS_PANE, 1, (byte) 14),
+					new ItemCreator("§1§c- Border épisode start", Material.STAINED_GLASS_PANE, 1, (byte) 14).make(),
 					new Button(null, player -> {
 						GUI.getGUI("uhc_config_border").addToDisplayer(-1,"border_start");
 					},null,null,"button")
@@ -424,14 +420,14 @@ public class UhcAPI extends JavaPlugin {
 			));
 
 			uhc_config_map_button.put(3, new ImmutablePair<ItemStack, Button>(
-					Utils.createItem("§1§2+ Border size", Material.STAINED_GLASS_PANE, 1, (byte) 5),
+					new ItemCreator("§1§2+ Border size", Material.STAINED_GLASS_PANE, 1, (byte) 5).make(),
 					new Button(null, player -> {
 						GUI.getGUI("uhc_config_border").addToDisplayer(1,"border_size");
 					},null,null,"button")
 			));
 
 			uhc_config_map_button.put(7, new ImmutablePair<ItemStack, Button>(
-					Utils.createItem("§1§c- Border size", Material.STAINED_GLASS_PANE, 1, (byte) 14),
+					new ItemCreator("§1§c- Border size", Material.STAINED_GLASS_PANE, 1, (byte) 14).make(),
 					new Button(null, player -> {
 						GUI.getGUI("uhc_config_border").addToDisplayer(-1,"border_size");
 					},null,null,"button")
@@ -444,9 +440,9 @@ public class UhcAPI extends JavaPlugin {
 			));
 
 			uhc_config_map_button.put(10, new ImmutablePair<ItemStack, Button>(
-					Utils.createItem("§1§8Pregenerate world", Material.COAL, 1, new String[] {
+					new ItemCreator("§1§8Pregenerate world", Material.COAL, 1, new String[] {
 							"§aRisque de §5§llag§r§a important"
-					}),
+					}).make(),
 					new Button(null, player -> {
 						game.info("§1§aPregenerate world");
 						game.info("§aLag jusqu'a la fin de la prégénération");
@@ -468,53 +464,53 @@ public class UhcAPI extends JavaPlugin {
 
 		//uhc_config_drop
 		{
-			Map<Integer, ImmutablePair<ItemStack, Button>> uhc_config_drop_map_button = new HashMap<Integer, ImmutablePair<ItemStack, Button>>();
-			Map<Integer, Displayer> uhc_config_drop_map_displayer = new HashMap<Integer, Displayer>();
+			Map<Integer, ImmutablePair<ItemStack, Button>> uhc_config_drop_map_button = new HashMap<>();
+			Map<Integer, Displayer> uhc_config_drop_map_displayer = new HashMap<>();
 
 			uhc_config_drop_map_button.put(2, new ImmutablePair<ItemStack, Button>(
-					Utils.createItem("§1§2+", Material.STAINED_GLASS_PANE, 1, (byte) 5),
+					new ItemCreator("§1§2+", Material.STAINED_GLASS_PANE, 1, (byte) 5).make(),
 					new Button(null, player -> {
 						GUI.getGUI("uhc_config_drop").addToDisplayer(2,"apple");
 					},null,null,"button")
 			));
 			uhc_config_drop_map_button.put(6, new ImmutablePair<ItemStack, Button>(
-					Utils.createItem("§1§c-", Material.STAINED_GLASS_PANE, 1, (byte) 14),
+					new ItemCreator("§1§c-", Material.STAINED_GLASS_PANE, 1, (byte) 14).make(),
 					new Button(null, player -> {
 						GUI.getGUI("uhc_config_drop").addToDisplayer(-2, "apple");
 					},null,null,"button")
 			));
 			uhc_config_drop_map_button.put(3, new ImmutablePair<ItemStack, Button>(
-					Utils.createItem("§1§2+", Material.STAINED_GLASS_PANE, 1, (byte) 5),
+					new ItemCreator("§1§2+", Material.STAINED_GLASS_PANE, 1, (short) 5).make(),
 					new Button(null, player -> {
 						GUI.getGUI("uhc_config_drop").addToDisplayer(2,"golden_apple");
 					},null,null,"button")
 			));
 			uhc_config_drop_map_button.put(7, new ImmutablePair<ItemStack, Button>(
-					Utils.createItem("§1§c-", Material.STAINED_GLASS_PANE, 1, (byte) 14),
+					new ItemCreator("§1§c-", Material.STAINED_GLASS_PANE, 1, (short) 14).make(),
 					new Button(null, player -> {
 						GUI.getGUI("uhc_config_drop").addToDisplayer(-2, "golden_apple");
 					},null,null,"button")
 			));
 			uhc_config_drop_map_button.put(4, new ImmutablePair<ItemStack, Button>(
-					Utils.createItem("§1§2+", Material.STAINED_GLASS_PANE, 1, (byte) 5),
+					new ItemCreator("§1§2+", Material.STAINED_GLASS_PANE, 1, (short) 5).make(),
 					new Button(null, player -> {
 						GUI.getGUI("uhc_config_drop").addToDisplayer(2,"flint");
 					},null,null,"button")
 			));
 			uhc_config_drop_map_button.put(8, new ImmutablePair<ItemStack, Button>(
-					Utils.createItem("§1§c-", Material.STAINED_GLASS_PANE, 1, (byte) 14),
+					new ItemCreator("§1§c-", Material.STAINED_GLASS_PANE, 1, (short) 14).make(),
 					new Button(null, player -> {
 						GUI.getGUI("uhc_config_drop").addToDisplayer(-2, "flint");
 					},null,null,"button")
 			));
 			uhc_config_drop_map_button.put(5, new ImmutablePair<ItemStack, Button>(
-					Utils.createItem("§1Back to UHC config page", Material.ARROW, 1),
+					new ItemCreator("§1Back to UHC config page", Material.ARROW, 1).make(),
 					new Button(null, player -> {
 						GUI.openGUI("uhc_config", player);
 					},null,null,"button")
 			));
 			uhc_config_drop_map_button.put(9, new ImmutablePair<ItemStack, Button>(
-					Utils.createItem("§1Back to main menu", Material.ARROW, 1),
+					new ItemCreator("§1Back to main menu", Material.ARROW, 1).make(),
 					new Button(null, player -> {
 						GUI.openGUI("main_menu", player);
 					},null,null,"button")
@@ -537,17 +533,17 @@ public class UhcAPI extends JavaPlugin {
 			Map<Integer, ImmutablePair<ItemStack, Button>> starter_stuff_map_button = new HashMap<Integer, ImmutablePair<ItemStack, Button>>();
 
 			starter_stuff_map_button.put(0, new ImmutablePair<ItemStack, Button>(
-					Utils.createItem("§1Back to main menu", Material.ARROW, 1),
+					new ItemCreator("§1Back to main menu", Material.ARROW, 1).make(),
 					new Button(null,	player -> {
 						GUI.openGUI("main_menu", player);
 					},null,null,"button")
 			));
 
 			starter_stuff_map_button.put(1, new ImmutablePair<ItemStack, Button>(
-					Utils.createItem("§1Switch Gamemode", Material.STONE_BUTTON, 1, new String[]{
+					new ItemCreator("§1Switch Gamemode", Material.STONE_BUTTON, 1, new String[]{
 							"§aPour passer du mode survie a créatif pour",
 							"§apouvoir remplir le starter stuff"
-					}),
+					}).make(),
 					new Button(null,	player -> {
 						if (player.getGameMode() == GameMode.ADVENTURE) {
 							player.setGameMode(GameMode.CREATIVE);
@@ -563,9 +559,7 @@ public class UhcAPI extends JavaPlugin {
 		//accept gui
 		{
 			//start
-			DefauldGUIType.ACCEPT.generateAcceptGUI(GUI.getGUI("main_menu"), player -> {
-				start(player);
-			}, "accept_start_gui", "§aAccept§7/§cDeny§5 start");
+			DefauldGUIType.ACCEPT.generateAcceptGUI(GUI.getGUI("main_menu"), this::start, "accept_start_gui", "§aAccept§7/§cDeny§5 start");
 
 			//world pregeneration
 		}

@@ -17,24 +17,6 @@
     <orderEntry type="jdk" jdkName="adopt-openjdk-1.8" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
-      <library name="spigot-1.8.jar">
-        <CLASSES>
-          <root url="jar://$USER_HOME$/Compétition/pluginsCodeDépends/spigot-1.8.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$USER_HOME$/Compétition/temp/plugins/utils.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
       <library>
         <CLASSES>
           <root url="jar://$USER_HOME$/Compétition/pluginsCodeDépends/worldedit-bukkit-6.1.jar!/" />
@@ -52,6 +34,15 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="spigot-1.8" level="project" />
+    <orderEntry type="library" name="spigot-1.8.8-R0.1-SNAPSHOT-latest" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/Resource/VirthiaUtilsAndAPI.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>

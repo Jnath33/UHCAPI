@@ -1,15 +1,13 @@
 package fr.jnath.UHCAPI.bukkit.plugin.listeners;
 
-import fr.jnath.UHCAPI.GUI.GUI;
 import fr.jnath.UHCAPI.bukkit.plugin.UhcAPI;
 import fr.jnath.UHCAPI.bukkit.plugin.event.EpisodePassEvent;
-import fr.jnath.UHCAPI.bukkit.plugin.event.MinutePassEvent;
 import fr.jnath.UHCAPI.bukkit.plugin.event.SecondePassEvent;
 import fr.jnath.UHCAPI.game.Game;
 import fr.jnath.UHCAPI.game.Status;
+import fr.virthia.utils.GUI.GUI;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityRegainHealthEvent;
 
 public class ChangeStatusListeners implements Listener {
 

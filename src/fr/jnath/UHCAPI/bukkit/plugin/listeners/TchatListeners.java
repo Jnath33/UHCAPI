@@ -1,9 +1,9 @@
-package fr.jnath.UHCAPI.tchat.listeners;
+package fr.jnath.UHCAPI.bukkit.plugin.listeners;
 
 import fr.jnath.UHCAPI.bukkit.plugin.UhcAPI;
 import fr.jnath.UHCAPI.game.Game;
-import fr.jnath.UHCAPI.tchat.Tchat;
 import fr.jnath.UHCAPI.team.Team;
+import fr.virthia.utils.tchat.Tchat;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

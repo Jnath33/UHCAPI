@@ -2,10 +2,10 @@ package fr.jnath.UHCAPI.game;
 
 import fr.jnath.UHCAPI.bukkit.plugin.UhcAPI;
 import fr.jnath.UHCAPI.game.win.WinCondition;
-import fr.jnath.UHCAPI.tchat.Tchat;
-import fr.jnath.UHCAPI.tchat.TchatContentType;
-import fr.jnath.UHCAPI.tchat.TchatFormat;
-import fr.jnath.UHCAPI.tchat.TchatType;
+import fr.virthia.utils.tchat.Tchat;
+import fr.virthia.utils.tchat.TchatContentType;
+import fr.virthia.utils.tchat.TchatFormat;
+import fr.virthia.utils.tchat.TchatType;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -43,10 +43,7 @@ public class Game {
     }
 
     public void info(String message){
-        List<Player> plss = new ArrayList<>();
-        for(Player pls : Bukkit.getOnlinePlayers()){
-            plss.add(pls);
-        }
+        List<Player> plss = new ArrayList<>(Bukkit.getOnlinePlayers());
         Tchat.sendMessage(plss, tchatNameInfo, message, "");
     }
 
