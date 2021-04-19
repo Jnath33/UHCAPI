@@ -2,7 +2,7 @@ name: UHCAPI
 version: 0.5
 author: jnath
 main: fr.jnath.UHCAPI.bukkit.plugin.UhcAPI
-depend: [WorldEdit]
+depend: [WorldEdit, VirthiaUtilsAndAPI]
 commands:
   config:
     description: permet de configurer l'UHC
@@ -10,3 +10,5 @@ commands:
   goTo:
     description: permet de changer de monde
     permission: goTo.use
+  uhc:
+    description: uhc cmd

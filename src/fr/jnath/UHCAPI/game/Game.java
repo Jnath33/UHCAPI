@@ -17,6 +17,7 @@ public class Game {
     private final String tchatNameInfo, tchatNameGlobal;
     private final List<Player> players = new ArrayList<>(), playersAlive = new ArrayList<>();
     private boolean useTeam;
+    private int episode = 1;
 
     public Game(String tag) {
         tchatNameInfo="generalInfo";
@@ -86,5 +87,11 @@ public class Game {
 
     public List<Player> getPlayersAlive() {
         return playersAlive;
+    }
+
+    public int getEpisode(){return episode;}
+
+    public void setEpisode(int episode) {
+        this.episode = episode;
     }
 }

@@ -1,7 +1,12 @@
 package fr.jnath.UHCAPI.bukkit.plugin.listeners;
 
+import fr.jnath.UHCAPI.bukkit.plugin.UhcAPI;
 import fr.jnath.UHCAPI.game.Status;
-import fr.jnath.Utils.Utils;
+import fr.virthia.utils.GUI.GUI;
+import fr.virthia.utils.GUI.Type;
+import fr.virthia.utils.bukkit.plugin.Utils;
+import fr.virthia.utils.item.ItemCreator;
+import fr.virthia.utils.scoreboard.PersonalScoreboard;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -12,21 +17,24 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-import fr.jnath.UHCAPI.GUI.GUI;
-import fr.jnath.UHCAPI.GUI.Type;
-import fr.jnath.UHCAPI.bukkit.plugin.UhcAPI;
-
 
 public class HubListeners implements Listener {
-	
+
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
 		if(UhcAPI.getGame().getStatus() == Status.WAITING) {
 			Player player = event.getPlayer();
 			player.teleport(new Location(Bukkit.getWorld("hub"), UhcAPI.getXSpawn(), UhcAPI.getYSpawn(), UhcAPI.getZSpawn()));
 			player.getInventory().clear();
-			player.getInventory().addItem(Utils.createItem("§5Team", Material.BANNER, 1));
-
+			player.getInventory().addItem(new ItemCreator("§5Team", Material.BANNER, 1).make());
+			Bukkit.getScheduler().runTaskLater(UhcAPI.getInstance(), new Runnable() {
+				@Override
+				public void run() {
+					PersonalScoreboard pScoreboard = Utils.INSTANCE.getScoreboardManager().getScoreboards().get(event.getPlayer().getUniqueId());
+					pScoreboard.setLine(1, "§cWaiting for the game");
+					pScoreboard.setLine(2, "");
+				}
+			}, 10);
 		}
 	}
 	

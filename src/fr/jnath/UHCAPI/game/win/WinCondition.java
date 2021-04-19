@@ -1,6 +1,8 @@
 package fr.jnath.UHCAPI.game.win;
 
+import fr.jnath.UHCAPI.bukkit.plugin.UhcAPI;
 import fr.jnath.UHCAPI.game.Game;
+import fr.jnath.UHCAPI.game.Status;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -37,10 +39,11 @@ public class WinCondition {
                 winConditions.remove(winCondition);
             }
             playerWinCondition.remove(player);
+            if(UhcAPI.getGame().statusEqual(new Status[]{Status.PREPVP, Status.STARTING, Status.INVULERABILITY, Status.WAITING}))
             if(winConditions.size()<=1){
                 if(winConditions.size()==1){
-                    Game.win(winCondition);
-                }else if(winConditions.size()==0){
+                    Game.win(winConditions.get(0));
+                }else {
                     Game.win(null);
                 }
             }
@@ -92,5 +95,17 @@ public class WinCondition {
 
     public static HashMap<String, WinCondition> getNameWinCondition() {
         return nameWinCondition;
+    }
+
+    public static boolean revive(Player player){
+        if(playerDeath.containsKey(player)){
+            WinCondition winCondition = playerDeath.get(player);
+            if(!winConditions.contains(winCondition)){
+                winConditions.add(winCondition);
+            }
+            addPlayer(winCondition.getName(), player);
+            return true;
+        }
+        return false;
     }
 }

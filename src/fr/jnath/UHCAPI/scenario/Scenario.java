@@ -1,7 +1,7 @@
 package fr.jnath.UHCAPI.scenario;
 
-import fr.jnath.UHCAPI.GUI.*;
-import fr.jnath.Utils.Utils;
+import fr.virthia.utils.GUI.*;
+import fr.virthia.utils.item.ItemCreator;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
@@ -103,10 +103,10 @@ public class Scenario {
         scenarioInventory = DefauldGUIType.VOID.generateGUI(Type.MENU, "scenario_menu", new HashMap<>(), "§cSélection des scénario");
         GUI gui = GUI.getGUI("scenario_menu");
         int iterator = 9;
-        gui.addButton(new Button(null,player -> {
+        gui.addButton(new Button(null, player -> {
             GUI.openGUI("main_menu", player);
         },null,null,"back_to_main_menu_button"), 4);
-        scenarioInventory.setItem(4, Utils.createItem("§1Back to main menu",Material.ARROW,1));
+        scenarioInventory.setItem(4, new ItemCreator("§1Back to main menu",Material.ARROW,1).make());
         for(Scenario scenario : scenarios){
             scenario.setSlot(iterator);
             Displayer displayer = new Displayer(scenario.name+"_displayer_in_scenario_menu", "§1"+scenario.getDisplayName()+" : ",".",scenario.itemType, scenario.lores,false);

@@ -26,7 +26,7 @@ public class UHCListeners implements Listener {
                 Entity damager = byEntityEvent.getDamager();
                 if(damager instanceof Player){
                     Player playerDamager = (Player) damager;
-                    if(UhcAPI.getGame().statusEqual(new Status[] {Status.POSTPVP})){
+                    if(UhcAPI.getGame().statusEqual(new Status[] {Status.PREPVP})){
                         event.setCancelled(true);
                     }
                 }

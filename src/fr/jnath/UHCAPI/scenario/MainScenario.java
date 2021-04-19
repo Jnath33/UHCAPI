@@ -1,8 +1,10 @@
 package fr.jnath.UHCAPI.scenario;
 
-import fr.jnath.UHCAPI.GUI.*;
 import fr.jnath.UHCAPI.bukkit.plugin.UhcAPI;
-import fr.jnath.Utils.Utils;
+import fr.jnath.UHCAPI.game.win.WinCondition;
+import fr.virthia.utils.GUI.*;
+import fr.virthia.utils.item.ItemCreator;
+import fr.virthia.utils.tchat.Tchat;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -28,6 +30,7 @@ public class MainScenario {
     private final String[] lores;
     private boolean useTeam;
     private int teamNomber;
+    private Function<WinCondition, String> endMessage;
     private Function<UhcAPI, Boolean> function;
 
     public MainScenario(String name, String displayName, String tag, Material itemType, Consumer<MainScenario> run, String[] lores, Function<UhcAPI, Boolean> function) {
@@ -84,6 +87,66 @@ public class MainScenario {
         useTeam=true;
         this.teamNomber=teamNomber;
         this.function=function;
+    }
+
+    public MainScenario(String name, String displayName, String tag, Material itemType, Consumer<MainScenario> run, String[] lores, Function<UhcAPI, Boolean> function,Function<WinCondition, String> endMessage) {
+        this.name = name;
+        this.displayName = displayName;
+        this.tag = tag;
+        this.run=run;
+        this.configMenuName = null;
+        this.itemType=itemType;
+        scenarios.add(this);
+        this.lores=lores;
+        useTeam=false;
+        this.function=function;
+        this.endMessage = endMessage;
+    }
+
+    public MainScenario(String name, String displayName, String tag, String configMenuName, Material itemType, Consumer<MainScenario> run, String[] lores, Function<UhcAPI, Boolean> function,Function<WinCondition, String> endMessage) {
+        this.name = name;
+        this.displayName = displayName;
+        this.tag = tag;
+        this.run=run;
+        this.configMenuName = configMenuName;
+        this.itemType=itemType;
+        scenarios.add(this);
+        this.gui=GUI.getGUI(configMenuName);
+        this.lores=lores;
+        useTeam=false;
+        this.function=function;
+        this.endMessage = endMessage;
+    }
+
+    public MainScenario(String name, String displayName, String tag, Material itemType, Consumer<MainScenario> run, String[] lores, int teamNomber, Function<UhcAPI, Boolean> function,Function<WinCondition, String> endMessage) {
+        this.name = name;
+        this.displayName = displayName;
+        this.tag = tag;
+        this.run=run;
+        this.configMenuName = null;
+        this.itemType=itemType;
+        scenarios.add(this);
+        this.lores=lores;
+        useTeam=true;
+        this.teamNomber=teamNomber;
+        this.function=function;
+        this.endMessage = endMessage;
+    }
+
+    public MainScenario(String name, String displayName, String tag, String configMenuName, Material itemType, Consumer<MainScenario> run, String[] lores, int teamNomber, Function<UhcAPI, Boolean> function, Function<WinCondition, String> endMessage) {
+        this.name = name;
+        this.displayName = displayName;
+        this.tag = tag;
+        this.run=run;
+        this.configMenuName = configMenuName;
+        this.itemType=itemType;
+        scenarios.add(this);
+        this.gui=GUI.getGUI(configMenuName);
+        this.lores=lores;
+        useTeam=true;
+        this.teamNomber=teamNomber;
+        this.function=function;
+        this.endMessage = endMessage;
     }
 
     public boolean canStart(Player player){
@@ -174,7 +237,7 @@ public class MainScenario {
         gui.addButton(new Button(null, player -> {
             GUI.openGUI("main_menu", player);
         },null,null,"back_to_main_menu_button"), 4);
-        scenarioInventory.setItem(4, Utils.createItem("§1Back to main menu",Material.ARROW,1));
+        scenarioInventory.setItem(4, new ItemCreator("§1Back to main menu",Material.ARROW,1).make());
         for(MainScenario scenario : scenarios){
             scenario.setSlot(iterator);
             Displayer displayer = new Displayer(scenario.name+"_displayer_in_scenario_menu", "§1"+scenario.getDisplayName()+" : ",".",scenario.itemType, scenario.lores,false);

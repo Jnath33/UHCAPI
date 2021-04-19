@@ -4,7 +4,7 @@ public enum Status {
     WAITING,
     STARTING,
     INVULERABILITY,
-    POSTPVP,
+    PREPVP,
     GAME,
     ENDING;
 }

@@ -1,6 +1,7 @@
 package fr.jnath.UHCAPI.config;
 
-import fr.jnath.UHCAPI.GUI.GUI;
+
+import fr.virthia.utils.GUI.GUI;
 
 import java.io.Serializable;
 import java.util.List;

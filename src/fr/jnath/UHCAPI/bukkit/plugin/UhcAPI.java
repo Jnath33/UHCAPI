@@ -2,19 +2,13 @@ package fr.jnath.UHCAPI.bukkit.plugin;
 
 import com.sk89q.worldedit.LocalWorld;
 import com.sk89q.worldedit.bukkit.BukkitUtil;
-import fr.jnath.UHCAPI.bukkit.plugin.commands.GetConfigItem;
-import fr.jnath.UHCAPI.bukkit.plugin.commands.UhcCmd;
-import fr.jnath.UHCAPI.bukkit.plugin.commands.goTo;
-import fr.jnath.UHCAPI.bukkit.plugin.listeners.HubListeners;
-import fr.jnath.UHCAPI.bukkit.plugin.listeners.UHCListeners;
-import fr.jnath.UHCAPI.game.Game;
 import fr.jnath.UHCAPI.bukkit.plugin.task.GameTask;
+import fr.jnath.UHCAPI.game.Game;
 import fr.jnath.UHCAPI.game.Status;
 import fr.jnath.UHCAPI.hub.HubTask;
 import fr.jnath.UHCAPI.manager.RegisterManager;
 import fr.jnath.UHCAPI.scenario.MainScenario;
 import fr.jnath.UHCAPI.scenario.Scenario;
-import fr.jnath.UHCAPI.bukkit.plugin.listeners.TchatListeners;
 import fr.virthia.utils.GUI.*;
 import fr.virthia.utils.item.ItemCreator;
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -53,12 +47,11 @@ public class UhcAPI extends JavaPlugin {
 	private YamlConfiguration messageTextConfiguration;
 	private HubTask hubTask;
 
-	public void onLoad() {
+	public void onEnable() {
+		System.out.println("UHCAPI Unabled");
 		//init GUI
 		initMenu();
-	}
 
-	public void onEnable() {
 		//save configs
 		saveDefaultConfig();
 
@@ -75,7 +68,7 @@ public class UhcAPI extends JavaPlugin {
 
 		Bukkit.getScheduler().runTaskAsynchronously(this, () ->{
 			try {
-				Thread.sleep(200);
+				Thread.sleep(10000);
 				Scenario.createScenarioInventory();
 			} catch (InterruptedException e){
 				e.printStackTrace();
@@ -83,7 +76,7 @@ public class UhcAPI extends JavaPlugin {
 		});
 		Bukkit.getScheduler().runTaskAsynchronously(this, () ->{
 			try {
-				Thread.sleep(200);
+				Thread.sleep(10000);
 				MainScenario.createScenarioInventory();
 			} catch (InterruptedException e){
 				e.printStackTrace();
@@ -331,14 +324,14 @@ public class UhcAPI extends JavaPlugin {
 			));
 
 			uhc_config_map_button.put(4, new ImmutablePair<ItemStack, Button>(
-					new ItemCreator("§1§2+ Épisode pvp start", Material.STAINED_GLASS_PANE, 1, (byte) 5).make(),
+					new ItemCreator("§1§2+ Pvp start minute", Material.STAINED_GLASS_PANE, 1, (byte) 5).make(),
 					new Button(null, player -> {
 						GUI.getGUI("uhc_config_timer").addToDisplayer(1,"pvp_start_episode");
 					},null,null,"button")
 			));
 
 			uhc_config_map_button.put(8, new ImmutablePair<ItemStack, Button>(
-					new ItemCreator("§1§c- Épisode pvp start", Material.STAINED_GLASS_PANE, 1, (byte) 14).make(),
+					new ItemCreator("§1§c- Pvp start minute", Material.STAINED_GLASS_PANE, 1, (byte) 14).make(),
 					new Button(null, player -> {
 						GUI.getGUI("uhc_config_timer").addToDisplayer(-1,"pvp_start_episode");
 					},null,null,"button")
@@ -377,9 +370,9 @@ public class UhcAPI extends JavaPlugin {
 					5,60,1,20
 			));
 			uhc_config_map_displayer.put(2, new Displayer(
-					"pvp_start_episode", "§cPvp start at épisode ", "",
+					"pvp_start_episode", "§cPvp start ", " min",
 					Material.IRON_SWORD, new String[] {},
-					1,15,1,2
+					1,60,1,20
 			));
 			uhc_config_map_displayer.put(3, new Displayer(
 					"invulnerability_duration", "§cDurré de l'invulnérabilité : ", "s",
@@ -400,23 +393,25 @@ public class UhcAPI extends JavaPlugin {
 			Map<Integer, Displayer> uhc_config_map_displayer = new HashMap<Integer, Displayer>();
 
 			uhc_config_map_button.put(2, new ImmutablePair<ItemStack, Button>(
-					new ItemCreator("§1§2+ Border épisode start", Material.STAINED_GLASS_PANE, 1, (byte) 5).make(),
-					new Button(null, player -> {
-						GUI.getGUI("uhc_config_border").addToDisplayer(1,"border_start");
+					new ItemCreator("§1§2+ Border minute start", Material.STAINED_GLASS_PANE, 1, (byte) 5).make(),
+					new Button(player -> {
+						GUI.getGUI("uhc_config_border").addToDisplayer(1,"border_start");}, player -> {
+						GUI.getGUI("uhc_config_border").addToDisplayer(10,"border_start");
 					},null,null,"button")
 			));
 
 			uhc_config_map_button.put(6, new ImmutablePair<ItemStack, Button>(
-					new ItemCreator("§1§c- Border épisode start", Material.STAINED_GLASS_PANE, 1, (byte) 14).make(),
-					new Button(null, player -> {
-						GUI.getGUI("uhc_config_border").addToDisplayer(-1,"border_start");
+					new ItemCreator("§1§c- Border minute start", Material.STAINED_GLASS_PANE, 1, (byte) 14).make(),
+					new Button(player -> {
+						GUI.getGUI("uhc_config_border").addToDisplayer(-1,"border_start");}, player -> {
+						GUI.getGUI("uhc_config_border").addToDisplayer(-10,"border_start");
 					},null,null,"button")
 			));
 
 			uhc_config_map_displayer.put(0, new Displayer(
-					"border_start", "§cBorder start at episode : ", "",
+					"border_start", "§cBorder start at : ", "min",
 					Material.COMPASS, new String[] {},
-					1,15,1,4
+					1,180,1,6
 			));
 
 			uhc_config_map_button.put(3, new ImmutablePair<ItemStack, Button>(
@@ -437,6 +432,46 @@ public class UhcAPI extends JavaPlugin {
 					"border_size", "§cBorder size : ", "m",
 					Material.STAINED_GLASS_PANE, new String[] {},
 					1,15,100,4,(byte) 2,(byte) 2
+			));
+
+			uhc_config_map_button.put(4, new ImmutablePair<ItemStack, Button>(
+					new ItemCreator("§1§2+ Block/s", Material.STAINED_GLASS_PANE, 1, (byte) 5).make(),
+					new Button(null, player -> {
+						GUI.getGUI("uhc_config_border").addToDisplayer(1,"border_speed");
+					},null,null,"button")
+			));
+
+			uhc_config_map_button.put(8, new ImmutablePair<ItemStack, Button>(
+					new ItemCreator("§1§c- Block/s", Material.STAINED_GLASS_PANE, 1, (byte) 14).make(),
+					new Button(null, player -> {
+						GUI.getGUI("uhc_config_border").addToDisplayer(-1,"border_speed");
+					},null,null,"button")
+			));
+
+			uhc_config_map_displayer.put(2, new Displayer(
+					"border_speed", "§cBorder speed (Block/s) : ", " B/s",
+					Material.COMPASS, new String[] {},
+					1,8,0.5,1
+			));
+
+			uhc_config_map_button.put(5, new ImmutablePair<ItemStack, Button>(
+					new ItemCreator("§1§2+ Border size final", Material.STAINED_GLASS_PANE, 1, (byte) 5).make(),
+					new Button(null, player -> {
+						GUI.getGUI("uhc_config_border").addToDisplayer(1,"border_size_end");
+					},null,null,"button")
+			));
+
+			uhc_config_map_button.put(9, new ImmutablePair<ItemStack, Button>(
+					new ItemCreator("§1§c- Border size final", Material.STAINED_GLASS_PANE, 1, (byte) 14).make(),
+					new Button(null, player -> {
+						GUI.getGUI("uhc_config_border").addToDisplayer(-1,"border_size_end");
+					},null,null,"button")
+			));
+
+			uhc_config_map_displayer.put(3, new Displayer(
+					"border_size_end", "§cBorder size final : ", "m",
+					Material.STAINED_GLASS_PANE, new String[] {},
+					2,40,10,5,(byte) 2,(byte) 2
 			));
 
 			uhc_config_map_button.put(10, new ImmutablePair<ItemStack, Button>(
@@ -528,6 +563,15 @@ public class UhcAPI extends JavaPlugin {
 			DefauldGUIType.CORNER.generateGUI(Type.MENU, "uhc_config_drop", uhc_config_drop_map_button, uhc_config_drop_map_displayer, "§8Drop item config");
 		}
 
+		//uhc_config_allowed_potion
+		{
+			DefauldGUIType.CORNER.generateGUI(Type.MENU, "uhc_config_allowed_potion", new HashMap<>(), "§eSélection des potions");
+
+			GUI gui = GUI.getGUI("uhc_config_allowed_potion");
+
+			//gui.addDisplayer();
+		}
+
 		//starter_stuff
 		{
 			Map<Integer, ImmutablePair<ItemStack, Button>> starter_stuff_map_button = new HashMap<Integer, ImmutablePair<ItemStack, Button>>();
@@ -566,7 +610,6 @@ public class UhcAPI extends JavaPlugin {
 	}
 
 	public void start(Player p) {
-
 		if(!MainScenario.getMainScenario().canStart(p)) return;
 
 		//end hubTask
@@ -574,26 +617,25 @@ public class UhcAPI extends JavaPlugin {
 
 		//set game status
 		game.setStatus(Status.INVULERABILITY);
+		p.sendMessage(String.valueOf(GUI.getGUI("uhc_config_border").getDisplayerValue("border_size")));
 
 		//set world border size
 		world.getWorldBorder().setSize(GUI.getGUI("uhc_config_border").getDisplayerValue("border_size"));
 
 		//create random generator with init with the current time in millis seconde
 		Random rand = new Random(System.currentTimeMillis());
+		p.sendMessage("test 4");
 
 		//create player iterator for teleport all player
-		Iterator iteratorPlayer = Bukkit.getOnlinePlayers().iterator();
-		System.out.println('1');
 
 		//envoie d'un message pour informer les joueurs que l'uhc se lance
 		getGame().info("L'uhc se lance");
-		System.out.println('2');
 		//set variable for Téléport player message
 		final int nomberOfPlayer = Bukkit.getOnlinePlayers().size();
 		int playerNomber=1;
 
 		//run for iterator and téléport players
-		while(iteratorPlayer.hasNext()) {
+		for(Player pls : Bukkit.getOnlinePlayers()) {
 			ItemStack itemStack = new ItemStack(Material.ENCHANTED_BOOK, 1);
 			EnchantmentStorageMeta meta = (EnchantmentStorageMeta) itemStack.getItemMeta();
 			meta.addStoredEnchant(Enchantment.ARROW_INFINITE, 1, true);
@@ -606,7 +648,6 @@ public class UhcAPI extends JavaPlugin {
 			playerNomber++;
 
 			//get the next player
-			Player pls = (Player) iteratorPlayer.next();
 
 
 			//create relative loc for teleport the player
@@ -628,16 +669,13 @@ public class UhcAPI extends JavaPlugin {
 			game.getPlayers().add(pls);
 
 			//set inventory
-			Iterator iteratorItem = GUI.getGUI("starter_stuff").getInventory().iterator();
-			while (iteratorItem.hasNext()){
-				ItemStack item =(ItemStack) iteratorItem.next();
-				try {
-					if (item != null) {
-						if (!item.getItemMeta().getDisplayName().startsWith("§1")) {
-							pls.getInventory().addItem(item);
-						}
+			for (ItemStack item : GUI.getGUI("starter_stuff").getInventory()) {
+				if (item != null && item.getType() != null) {
+					if (item.getItemMeta() == null || item.getItemMeta().getDisplayName() == null || (!item.getItemMeta().getDisplayName().startsWith("§1"))) {
+						pls.getInventory().addItem(item);
+						pls.updateInventory();
 					}
-				}catch (NullPointerException e){}
+				}
 			}
 		}
 

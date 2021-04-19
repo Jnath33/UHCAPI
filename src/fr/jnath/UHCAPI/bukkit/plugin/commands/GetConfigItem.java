@@ -1,13 +1,12 @@
 package fr.jnath.UHCAPI.bukkit.plugin.commands;
 
-import fr.jnath.Utils.Utils;
+import fr.virthia.utils.item.ItemCreator;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
-import org.bukkit.material.Chest;
 
 public class GetConfigItem implements CommandExecutor {
 
@@ -16,7 +15,7 @@ public class GetConfigItem implements CommandExecutor {
 		if(!(arg0 instanceof Player)) {
 			return false;
 		}
-		((Player) arg0).getInventory().addItem(Utils.createItem("§5Config", Material.STICK, 1, Enchantment.PROTECTION_ENVIRONMENTAL, 1));
+		((Player) arg0).getInventory().addItem(new ItemCreator("§5Config", Material.STICK, 1).addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1).make());
 		return true;
 	}
 
